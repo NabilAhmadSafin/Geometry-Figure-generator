@@ -7,8 +7,15 @@ let db: Database | null = null;
 export async function getDb() {
   if (db) return db;
 
+  // On Vercel, process.cwd() is read-only. We must use /tmp for SQLite, 
+  // though please note this data will be wiped when the serverless function spins down.
+  const isVercel = process.env.VERCEL === '1';
+  const dbPath = isVercel 
+    ? path.join('/tmp', 'database.sqlite')
+    : path.join(process.cwd(), 'database.sqlite');
+
   db = await open({
-    filename: path.join(process.cwd(), 'database.sqlite'),
+    filename: dbPath,
     driver: sqlite3.Database
   });
 
