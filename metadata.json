@@ -1,0 +1,6 @@
+{
+  "name": "AI Olympiad Geometry Drawer",
+  "description": "Convert geometry Olympiad problems into interactive GeoGebra figures using Gemini AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
