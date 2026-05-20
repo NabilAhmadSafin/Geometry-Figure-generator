@@ -1,16 +1,15 @@
 import express from "express";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
-import { getDb } from "./src/server/db.js";
+import { getDb } from "./src/server/db";
 import {
   hashPassword,
   comparePassword,
   generateToken,
   authenticateToken,
   AuthRequest,
-} from "./src/server/auth.js";
+} from "./src/server/auth";
 
 dotenv.config();
 
@@ -196,12 +195,13 @@ app.get("/api/history", authenticateToken, async (req: AuthRequest, res) => {
 // Vite middleware setup
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
-  } else {
+  } else if (!process.env.VERCEL) {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {

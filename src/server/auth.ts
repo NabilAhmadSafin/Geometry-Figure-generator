@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { getDb } from './db.js';
+import { getDb } from './db';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-geo-drawer';
 
